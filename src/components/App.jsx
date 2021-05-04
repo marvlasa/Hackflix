@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import movies from "../data/movies.json";
+
 import Movie from "./Movie";
 import Header from "./Header";
 import InputRating from "./InputRating";
 
 function App() {
   const [searchField, setSearchField] = useState("");
-  const [movieList, setMovieList] = useState(movies);
+
   const [ratingValue, setRatingValue] = useState(null);
   const [moviesApi, setMoviesApi] = useState([]);
 
@@ -46,7 +46,7 @@ function App() {
       .then((data) => {
         setMoviesApi(data.results);
       });
-  }, [searchField, ratingValue]);
+  }, [searchField, ratingValue, SEARCH_API, SEARCH_API_RATING]);
 
   return (
     <>

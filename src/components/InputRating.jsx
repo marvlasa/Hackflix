@@ -38,7 +38,7 @@ const RatingIcon = ({
   const ratingIcon = useCallback(() => {
     setRating(ratingValue);
     setRatingValue(ratingValue);
-  }, [ratingValue]);
+  }, [ratingValue, setRating, setRatingValue]);
   const iconClass = useMemo(
     () =>
       `fa${
