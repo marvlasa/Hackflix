@@ -1,0 +1,28 @@
+.movie {
+  margin-top: 50px;
+  border: 1px solid white;
+  text-align: center;
+  cursor: pointer;
+  margin: 10px 10px;
+}
+
+.movie h1 {
+  padding: 0px 0;
+  color: black;
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: normal;
+}
+
+.movie img {
+  width: 200px;
+  height: 250px;
+  margin-top: 10px;
+  object-fit: cover;
+  border-radius: 4px;
+  transition: transform 0.2s;
+}
+
+.movie img:hover {
+  transform: scale(1.5);
+}
