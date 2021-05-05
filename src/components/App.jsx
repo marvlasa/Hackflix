@@ -60,7 +60,7 @@ function App() {
       url = SEARCH_API_RATING;
     }
     fetchData(url);
-  }, [searchField, ratingValue]);
+  }, [searchField, ratingValue, SEARCH_API, SEARCH_API_RATING]);
 
   useEffect(() => {
     fetch(SEARCH_API_RATING)
@@ -69,7 +69,7 @@ function App() {
         setMoviesApi([...moviesApi, ...data.results]);
       });
     console.log(pageNumber);
-  }, [pageNumber]);
+  }, [pageNumber, SEARCH_API_RATING, moviesApi]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
