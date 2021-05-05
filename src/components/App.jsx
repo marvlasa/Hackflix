@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
+
 import "./App.css";
 
 import Movie from "./Movie";
 import Header from "./Header";
 import InputRating from "./InputRating";
-
 function App() {
   const [searchField, setSearchField] = useState("");
 
   const [ratingValue, setRatingValue] = useState(null);
   const [moviesApi, setMoviesApi] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
 
   const FEATURED_API =
     "https://api.themoviedb.org/3/discover/movie?api_key=04c35731a5ee918f014970082a0088b1";
@@ -17,7 +18,7 @@ function App() {
   const SEARCH_API = `https://api.themoviedb.org/3/search/movie?api_key=04c35731a5ee918f014970082a0088b1&query=${searchField}`;
   const SEARCH_API_RATING = `https://api.themoviedb.org/3/discover/movie?api_key=04c35731a5ee918f014970082a0088b1&vote_average.gte=${
     ratingValue * 2
-  }`;
+  }&page=${pageNumber}`;
 
   // let filteredMoviesByTitle = movieList.filter((movie) =>
   //   movie.title.toLowerCase().includes(searchField.toLowerCase())
@@ -32,6 +33,23 @@ function App() {
   // }
   // const filteredMovies =
   //   ratingValue !== null ? filteredMoviesByRating : filteredMoviesByTitle;
+  const fetchData = (url) => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        setMoviesApi(data.results);
+      });
+  };
+
+  function handleScroll() {
+    if (
+      window.innerHeight + Math.ceil(window.pageYOffset) >=
+      document.body.offsetHeight
+    ) {
+      console.log("holaaa");
+      setPageNumber((pageNumber) => pageNumber + 1);
+    }
+  }
 
   useEffect(() => {
     let url = FEATURED_API;
@@ -41,12 +59,22 @@ function App() {
     } else if (ratingValue && ratingValue !== "") {
       url = SEARCH_API_RATING;
     }
-    fetch(url)
+    fetchData(url);
+  }, [searchField, ratingValue, SEARCH_API, SEARCH_API_RATING]);
+
+  useEffect(() => {
+    fetch(SEARCH_API_RATING)
       .then((res) => res.json())
       .then((data) => {
-        setMoviesApi(data.results);
+        setMoviesApi([...moviesApi, ...data.results]);
       });
-  }, [searchField, ratingValue, SEARCH_API, SEARCH_API_RATING]);
+    console.log(pageNumber);
+  }, [pageNumber, SEARCH_API_RATING, moviesApi]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
