@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 
 import "./App.css";
@@ -60,7 +61,7 @@ function App() {
       url = SEARCH_API_RATING;
     }
     fetchData(url);
-  }, [searchField, ratingValue, SEARCH_API, SEARCH_API_RATING]);
+  }, [searchField, ratingValue]);
 
   useEffect(() => {
     fetch(SEARCH_API_RATING)
@@ -69,7 +70,7 @@ function App() {
         setMoviesApi([...moviesApi, ...data.results]);
       });
     console.log(pageNumber);
-  }, [pageNumber, SEARCH_API_RATING, moviesApi]);
+  }, [pageNumber]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
