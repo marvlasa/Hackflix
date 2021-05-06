@@ -1,10 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
 import "./App.css";
-import Movie from "./Movie";
-import Header from "./Header";
-import InputRating from "./InputRating";
+import HomePage from "./pages/HomePage";
 import MovieDetails from "./pages/MovieDetails";
 
 function App() {
@@ -67,40 +65,23 @@ function App() {
 
   return (
     <>
-      <Header setSearchField={setSearchField} />
-      <InputRating setRatingValue={setRatingValue} />
-
       <BrowserRouter>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-        </ul>
-
-        <Route path="/about" component={MovieDetails} />
+        <Route
+          path="/"
+          exact
+          render={() => (
+            <HomePage
+              setSearchField={setSearchField}
+              setRatingValue={setRatingValue}
+              moviesApi={moviesApi}
+              isLoading={isLoading}
+            />
+          )}
+        />
+        <Switch>
+          <Route path="/movie/:id" component={MovieDetails} />
+        </Switch>
       </BrowserRouter>
-
-      <div className="container">
-        <div className="App">
-          {moviesApi.map((item) => {
-            return (
-              <Movie
-                key={item.id}
-                title={item.title}
-                poster_path={item.poster_path}
-              />
-            );
-          })}
-        </div>
-      </div>
-      {!isLoading ? (
-        <div class="spinner-grow" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      ) : null}
     </>
   );
 }
